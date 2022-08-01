@@ -21,23 +21,18 @@ public class MoveBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if (hover)
-        {
-            speed *= -1f;
-            hover = false;
-            transform.Rotate(reflectedObject.position);
-        }
-        transform.position += _direction * speed * Time.deltaTime;
+        Move();
+    }
 
-        //Debug.DrawRay(transform.position, transform.forward*10, Color.red);
-        
+    public void Move()
+    {
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        _direction = Vector3.Reflect(transform.forward, collision.transform.forward);
-        Debug.Log(_direction + " - " + collision.GetContact(0).normal);
-        transform.Rotate(_direction * 50f);
+        _direction = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
+
+        transform.forward = _direction;
     }
 }
